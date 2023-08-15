@@ -1,3 +1,5 @@
+import math
+
 import requests
 import time
 import pandas as pd
@@ -7,7 +9,7 @@ from selenium.webdriver.common.by import By
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
@@ -307,6 +309,37 @@ def menuPlan1000Datos():
         places.extend(data)
     placesToDictionary(places, scrapping)
 
+
+def testSectores():
+    print('######Test######')
+    print('')
+    #seleccion de si deseo scrappear o no
+    scrap = int(input('Desea realizar scrapping de webs 1 = si , 0 = no: '))
+    scrapping = False
+    if scrap == 1:
+        scrapping = True
+
+    pais = input('Ingrese el nombre del pais: ')
+    cantidadDatosNecesarios = int(input('Ingrese la cantidad de datos que necesita: '))
+    places = []
+
+    if cantidadDatosNecesarios < cantidadDatosPosiblesXpaisSegunProvincias(pais):
+        arrayProvincias = obtenerProvinciasPais(pais)
+        place_type = input('Ingrese el tipo de luga: ')
+        cantPeticionesNecesarias = math.ceil(cantidadDatosNecesarios / 60)
+        print(cantPeticionesNecesarias)
+        cont = 0
+        for prov in arrayProvincias:
+            data = peticionApiPorLugar(pais, prov, place_type)
+            places.extend(data)
+            cont +=1
+            if cont >= cantPeticionesNecesarias:
+                placesToDictionary(places, scrapping)
+                break
+
+
+
+
 def menu():
     print('Inicio de scrapper de Datos x Google Maps')
     print('')
@@ -328,7 +361,9 @@ def menu():
         if plan == 2:
             menuPlan500Datos()
         if plan == 3:
-            menuPlan1000Datos()
+            #menuPlan1000Datos()
+            testSectores()
+
 
 
 menu()
