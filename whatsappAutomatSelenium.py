@@ -6,29 +6,23 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
 
-# hay que conseguir el path del usuario del chrome para la configuracion de selenium
-# para poder evitar tener que escanear el codigo qr de whatsapp web
-
-''' # Configurar la ubicación del perfil de usuario de Chrome
- profile_directory = r'C:\path\to\your\chrome\profile\directory'
-
- # Configurar opciones para utilizar el perfil de usuario
- chrome_options = Options()
- chrome_options.add_argument('--user-data-dir=' + profile_directory)
-
- # Inicializar el controlador de Selenium con las opciones de usuario
- driver = webdriver.Chrome(options=chrome_options) '''
 
 
 def whatsapp_automat_v2(numero, mensaje):
-    # Configurar opciones para ejecutar en modo headless
+    # Configurar la ubicación del perfil de usuario de Chrome
+
+
+    # Configurar opciones para utilizar el perfil de usuario
     chrome_options = Options()
-    #chrome_options.add_argument('--headless')  # Modo headless
+    chrome_options.add_argument('--profile-directory=Profile 1')
+    chrome_options.add_argument('--user-data-dir=C:\\Users\\FRANM\\AppData\\Local\\Google\\Chrome\\User Data\\')
 
-    # Inicializar el controlador de Selenium
-    driver = webdriver.Chrome(options=chrome_options)
-
+    # Inicializar el controlador de Selenium con las opciones de usuario
+    print('a')
+    driver = uc.Chrome(executable_path='C:\Program Files\Google\Chrome\Application\chrome.exe', options=chrome_options)
+    print('a')
     try:
+        print('b')
         driver.get('https://web.whatsapp.com/send?phone=' + numero)
         # Esperar hasta que aparezca el cuadro de entrada de texto
         time.sleep(10)

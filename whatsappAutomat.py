@@ -32,5 +32,5 @@ def envio_multiple_whatsapp(arrayNumeros,mensaje):
         whatsapp_automat_v2(numero,mensaje)
         sleep(5)
 
-#arrayNum = ['54 9 351 7658958','54 9 3512 02-7607','54 3512583038']
-#envio_multiple_whatsapp(arrayNum)
+arrayNum = ['54 9 351 7658958','54 9 3512 02-7607','54 3512583038']
+envio_multiple_whatsapp(arrayNum,'hola soy un bot no reapondaiSSS')
