@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos
+from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos, existeElPais
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
@@ -311,28 +311,34 @@ def menuPlan1000Datos():
 
 
 def testSectores():
-    print('######Test######')
+    print('######Busqueda x divicion territorial######')
     print('')
+    pais = 'null'
+
+    while existeElPais(pais) == False:
+        pais = input('Ingrese el nombre del pais: ')
+        existeElPais(pais)
+
+    cantidadDatosNecesarios = int(input('Ingrese la cantidad de datos que necesita: '))
+    places = []
+
     #seleccion de si deseo scrappear o no
     scrap = int(input('Desea realizar scrapping de webs 1 = si , 0 = no: '))
     scrapping = False
     if scrap == 1:
         scrapping = True
 
-    pais = input('Ingrese el nombre del pais: ')
-    cantidadDatosNecesarios = int(input('Ingrese la cantidad de datos que necesita: '))
-    places = []
-
     if cantidadDatosNecesarios < cantidadDatosPosiblesXpaisSegunProvincias(pais):
         arrayProvincias = obtenerProvinciasPais(pais)
-        place_type = input('Ingrese el tipo de luga: ')
+        place_type = input('Ingrese el tipo de lugar: ')
         cantPeticionesNecesarias = math.ceil(cantidadDatosNecesarios / 60)
         print(cantPeticionesNecesarias)
         cont = 0
         for prov in arrayProvincias:
             data = peticionApiPorLugar(pais, prov, place_type)
             places.extend(data)
-            cont +=1
+            cont += 1
+            print(cont)
             if cont >= cantPeticionesNecesarias:
                 placesToDictionary(places, scrapping)
                 break
@@ -351,9 +357,12 @@ def menu():
     print('')
     print('3: Plan 1000 Datos ')
     print('')
+    print('4: Plan Obtencion de datos x divicion geografica ')
     print('')
+    print('')
+
     plan = 0
-    while plan != 1 or plan !=2 or plan !=3:
+    while plan != 1 and plan != 2 and plan != 3 and plan != 4:
         plan = int(input('Ingrese el Numero de plan: '))
         print('')
         if plan == 1:
@@ -361,7 +370,8 @@ def menu():
         if plan == 2:
             menuPlan500Datos()
         if plan == 3:
-            #menuPlan1000Datos()
+            menuPlan1000Datos()
+        if plan == 4:
             testSectores()
 
 

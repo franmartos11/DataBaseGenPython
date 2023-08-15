@@ -64,7 +64,15 @@ def cantidadDatosPosiblesXpaisSegunProvincias(nombre):
 
     return print('country not found')
 
+def existeElPais(nombrepais):
+    with open('divicion_pais.json', 'r') as jsonPaises:
+        data = json.load(jsonPaises)
+    for pais in data['paises']:
+        nombre_pais = pais['nombre']
+        if nombre_pais == nombrepais:
 
+            return True
+    return False
 
 
 def menu():
