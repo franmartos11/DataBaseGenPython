@@ -1,5 +1,8 @@
 import pywhatkit as kit
 import datetime
+import pyautogui , webbrowser
+from time import sleep
+
 
 
 
@@ -15,9 +18,9 @@ def whastapp_automat():
     hora_envio = hora_actual + datetime.timedelta(minutes=1.1)
     print(hora_envio)
 
-    # Enviar el mensaje +54 9 3512 02-7607
+    # Enviar el mensaje +54 9 3512 02-7607 || +54 9 351 7658958
+
     kit.sendwhatmsg(numero_destino, mensaje, hora_envio.hour, hora_envio.minute, close_time=2)
 
-
-whastapp_automat()
-
+def whatsapp_automat_v2(numero):
+    webbrowser.open('https://web.whatsapp.com/send?phone='+numero.num)

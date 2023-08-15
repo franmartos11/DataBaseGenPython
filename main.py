@@ -62,35 +62,44 @@ def obtenerDetalleSegunPlaceId(place_id):
         return None
 
 def scrapSocialMediaLinksWithSelenium(webUrl):
-    # Configurar opciones para ejecutar en modo headless
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Modo headless
-    chrome_options.add_argument('--ssl-version-max=tls1.2')
+    try:
+        # Configurar opciones para ejecutar en modo headless
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')  # Modo headless
+        chrome_options.add_argument('--ssl-version-max=tls1.2')
 
-    # Inicializar el controlador de Selenium
-    driver = webdriver.Chrome(options=chrome_options)
+        # Inicializar el controlador de Selenium
+        driver = webdriver.Chrome(options=chrome_options)
 
-    # Abrir la URL
-    driver.get(webUrl)
+        # Abrir la URL
+        driver.get(webUrl)
 
-    # Diccionario para almacenar enlaces de redes sociales
-    social_links = {}
+        # Diccionario para almacenar enlaces de redes sociales
+        social_links = {}
 
-    # Buscar enlaces a redes sociales utilizando XPath
-    social_media_xpath = {
-        'LinkedIn': "//a[contains(@href, 'linkedin')]",
-        'Instagram': "//a[contains(@href, 'instagram')]",
-        'Facebook': "//a[contains(@href, 'facebook')]",
-        'Mail': "//*[contains(@href, 'mailto:')]"
-    }
+        # Buscar enlaces a redes sociales utilizando XPath
+        social_media_xpath = {
+            'LinkedIn': "//a[contains(@href, 'linkedin')]",
+            'Instagram': "//a[contains(@href, 'instagram')]",
+            'Facebook': "//a[contains(@href, 'facebook')]",
+            'Mail': "//*[contains(@href, 'mailto:')]"
+        }
 
-    for platform, xpath in social_media_xpath.items():
-        elements = driver.find_elements(By.XPATH, xpath)
-        if elements:
-            social_links[platform] = elements[0].get_attribute('href')
+        for platform, xpath in social_media_xpath.items():
+            try:
+                elements = driver.find_elements(By.XPATH, xpath)
+                if elements:
+                    social_links[platform] = elements[0].get_attribute('href')
 
-    # Cerrar el navegador
-    driver.quit()
+            except Exception as e:
+                print(f"Error while scraping {platform} link: {e}")
+
+    except Exception as e:
+        print(f"Error during scraping: {e}")
+
+    finally:
+        # Cerrar el navegador
+        driver.quit()
 
     # Devolver el diccionario de enlaces encontrados
     return social_links
@@ -313,14 +322,13 @@ def menuPlan1000Datos():
 def testSectores():
     print('######Busqueda x divicion territorial######')
     print('')
-    pais = 'null'
 
+    pais = 'null'
     while existeElPais(pais) == False:
         pais = input('Ingrese el nombre del pais: ')
         existeElPais(pais)
 
     cantidadDatosNecesarios = int(input('Ingrese la cantidad de datos que necesita: '))
-    places = []
 
     #seleccion de si deseo scrappear o no
     scrap = int(input('Desea realizar scrapping de webs 1 = si , 0 = no: '))
@@ -328,6 +336,7 @@ def testSectores():
     if scrap == 1:
         scrapping = True
 
+    places = []
     if cantidadDatosNecesarios < cantidadDatosPosiblesXpaisSegunProvincias(pais):
         arrayProvincias = obtenerProvinciasPais(pais)
         place_type = input('Ingrese el tipo de lugar: ')
