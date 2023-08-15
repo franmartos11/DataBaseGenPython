@@ -1,10 +1,7 @@
 import pywhatkit as kit
 import datetime
-import pyautogui , webbrowser
+import pyautogui, webbrowser
 from time import sleep
-
-
-
 
 def whastapp_automat():
 
@@ -22,19 +19,18 @@ def whastapp_automat():
 
     kit.sendwhatmsg(numero_destino, mensaje, hora_envio.hour, hora_envio.minute, close_time=2)
 
-def whatsapp_automat_v2(numero):
+def whatsapp_automat_v2(numero,mensaje):
     webbrowser.open('https://web.whatsapp.com/send?phone='+numero)
     sleep(10)
-    pyautogui.typewrite('prueba v2 bot no me odien los kiero')
+    pyautogui.typewrite(f'{mensaje}')
     pyautogui.press('enter')
 
 #whatsapp_automat_v2('54 9 351 7658958')
 
-def enviomultiple(arrayNumeros):
+def envio_multiple_whatsapp(arrayNumeros,mensaje):
     for numero in arrayNumeros:
-        whatsapp_automat_v2(numero)
+        whatsapp_automat_v2(numero,mensaje)
         sleep(5)
 
-arrayNum = ['54 9 351 7658958','54 9 3512 02-7607','54 3512583038']
-
-enviomultiple(arrayNum)
+#arrayNum = ['54 9 351 7658958','54 9 3512 02-7607','54 3512583038']
+#envio_multiple_whatsapp(arrayNum)

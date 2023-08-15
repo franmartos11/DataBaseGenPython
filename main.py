@@ -10,6 +10,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos, existeElPais
+from whatsappAutomat import whatsapp_automat_v2, envio_multiple_whatsapp
+
+
+
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
@@ -191,6 +195,7 @@ def placesToDictionary(data,scrap):
 
     # pasar los dictioonary a dataframes usando panda para poder crear las sheets + filtro para limpiar datos q no contangan la info q necesito
     home_df = pd.DataFrame(dataDictionary)
+
     # genero diccionarios segun un filtro si es que scrappeo
     if scrap:
         linkedinDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayLinkedin, 'Linkedin')
