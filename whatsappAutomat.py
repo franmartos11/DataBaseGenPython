@@ -23,4 +23,18 @@ def whastapp_automat():
     kit.sendwhatmsg(numero_destino, mensaje, hora_envio.hour, hora_envio.minute, close_time=2)
 
 def whatsapp_automat_v2(numero):
-    webbrowser.open('https://web.whatsapp.com/send?phone='+numero.num)
+    webbrowser.open('https://web.whatsapp.com/send?phone='+numero)
+    sleep(10)
+    pyautogui.typewrite('prueba v2 bot no me odien los kiero')
+    pyautogui.press('enter')
+
+#whatsapp_automat_v2('54 9 351 7658958')
+
+def enviomultiple(arrayNumeros):
+    for numero in arrayNumeros:
+        whatsapp_automat_v2(numero)
+        sleep(5)
+
+arrayNum = ['54 9 351 7658958','54 9 3512 02-7607','54 3512583038']
+
+enviomultiple(arrayNum)
