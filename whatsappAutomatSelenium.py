@@ -16,15 +16,18 @@ def whatsapp_automat_v2(numero, mensaje):
     chrome_options = Options()
     chrome_options.add_argument('--profile-directory=Profile 1')
     chrome_options.add_argument('--user-data-dir=C:\\Users\\FRANM\\AppData\\Local\\Google\\Chrome\\User Data\\')
+    chrome_options.add_argument('--headless')
 
     # Inicializar el controlador de Selenium con las opciones de usuario
     print('a')
-    driver = uc.Chrome(executable_path='C:\Program Files\Google\Chrome\Application\chrome.exe', options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
     print('a')
+    print(driver.current_url)
     try:
         print('b')
         driver.get('https://web.whatsapp.com/send?phone=' + numero)
         # Esperar hasta que aparezca el cuadro de entrada de texto
+        print(driver.current_url)
         time.sleep(10)
 
         input_box = driver.find_elements(By.CLASS_NAME, 'selectable-text copyable-text iq0m558w g0rxnol2')
