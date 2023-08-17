@@ -5,10 +5,9 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos, existeElPais
+from emailsAutomat import cleanEmailFormat, sendEmail, sendEmailsToEverione
+
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
@@ -196,7 +195,7 @@ def placesToDictionary(data,scrap):
         linkedinDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayLinkedin, 'Linkedin')
         instagramDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayInstagram, 'Instagram')
         facebookDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayFacebook, 'Facebook')
-        mailDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayMail, 'Mail')
+        mailDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, cleanEmailFormat(arrayMail), 'Mail')
 
         # creo los dataframes de los datos extraidos con selenium
         linkedin_df = pd.DataFrame(linkedinDictionary)
@@ -227,37 +226,6 @@ def generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayFiltr
             filteredArraysDictionary[f'{nameFilter}'].append(arrayFiltro[i])
 
     return filteredArraysDictionary
-
-#...........................automatizacion de mandado de emails ..................................
-
-def sendEmail(mailDestinatario):
-    # Configuración del servidor SMTP y credenciales
-    smtp_server = 'smtp.gmail.com'
-    smtp_port = 587
-    mi_correo = 'usafyabot2.4@gmail.com'
-    password = 'mfoubsxgpnovkjbx'
-
-    # Crear objeto para el correo electrónico
-    msg = MIMEMultipart()
-    msg['From'] = mi_correo
-    msg['To'] = mailDestinatario
-    msg['Subject'] = 'Asunto del correo'
-
-    # Cuerpo del correo
-    mensaje = "Este es el contenido del correo."
-    msg.attach(MIMEText(mensaje, 'plain'))
-
-    # Establecer conexión con el servidor SMTP
-    server = smtplib.SMTP(smtp_server, smtp_port)
-    server.starttls()
-    server.login(mi_correo, password)
-
-    # Enviar el correo electrónico
-    server.sendmail(mi_correo, mailDestinatario, msg.as_string())
-
-    # Cerrar la conexión
-    server.quit()
-
 
 #...............................Menu............................................................
 

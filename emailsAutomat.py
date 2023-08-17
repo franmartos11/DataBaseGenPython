@@ -31,7 +31,7 @@ def sendEmail(mailDestinatario,subject,message):
     # Cerrar la conexión
     server.quit()
 
-sendEmail('franmartos11@gmail.com')
+#sendEmail('franmartos11@gmail.com')
 
 def cleanEmailFormat(array):
     cleanArray = []
@@ -53,3 +53,5 @@ def sendEmailsToEverione(arrayMails):
         sendEmail(mail, subject, message)
         time.sleep(random.randint(30, 90))
 
+#arr = ['franmartos11@gmail.com','mailto:usafyabot2.3@gmail.com','usafyabot2.4@gmail.com']
+#sendEmailsToEverione(arr)
