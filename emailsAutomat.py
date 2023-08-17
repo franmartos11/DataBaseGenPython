@@ -1,8 +1,10 @@
+import random
 import smtplib
+import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def sendEmail(mailDestinatario):
+def sendEmail(mailDestinatario,subject,message):
     # Configuración del servidor SMTP y credenciales
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
@@ -13,11 +15,10 @@ def sendEmail(mailDestinatario):
     msg = MIMEMultipart()
     msg['From'] = mi_correo
     msg['To'] = mailDestinatario
-    msg['Subject'] = 'Asunto del correo'
+    msg['Subject'] = subject
 
     # Cuerpo del correo
-    mensaje = "Este es el contenido del correo."
-    msg.attach(MIMEText(mensaje, 'plain'))
+    msg.attach(MIMEText(message, 'plain'))
 
     # Establecer conexión con el servidor SMTP
     server = smtplib.SMTP(smtp_server, smtp_port)
@@ -32,4 +33,23 @@ def sendEmail(mailDestinatario):
 
 sendEmail('franmartos11@gmail.com')
 
+def cleanEmailFormat(array):
+    cleanArray = []
+    for mail in array:
+        cleanArray.append(mail.replace('mailto:', ''))
+    return cleanArray
+
+def sendEmailsToEverione(arrayMails):
+
+    subject = input('Ingrese el asunto del mail que desea enviar : ')
+    message = input('Ingrese el mensaje que desea enviar a todos los mails : ')
+
+    # limpio formato de mails obtenidos
+    cleanArray = cleanEmailFormat(arrayMails)
+
+    #recorro el array enviando mails con tiempo de espera random
+
+    for mail in cleanArray:
+        sendEmail(mail, subject, message)
+        time.sleep(random.randint(30, 90))
 

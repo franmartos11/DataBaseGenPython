@@ -19,21 +19,20 @@ def whatsapp_automat_v2(numero, mensaje):
     chrome_options.add_argument('--headless')
 
     # Inicializar el controlador de Selenium con las opciones de usuario
-    print('a')
+
     driver = webdriver.Chrome(options=chrome_options)
-    print('a')
-    print(driver.current_url)
+
     try:
         print('b')
-        driver.get('https://web.whatsapp.com/send?phone=' + numero)
+        driver.get('https://web.whatsapp.com/send?phone='+numero+'&text='+mensaje)
         # Esperar hasta que aparezca el cuadro de entrada de texto
         print(driver.current_url)
         time.sleep(10)
 
-        input_box = driver.find_elements(By.CLASS_NAME, 'selectable-text copyable-text iq0m558w g0rxnol2')
-        print(input_box)
-
-        input_box.send_keys(mensaje + Keys.ENTER)
+        wait = WebDriverWait(driver, 10)  # Esperar hasta 10 segundos
+        send_button = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-testid="compose-btn-send"]')))
+        send_button.click()
 
         print("Mensaje enviado exitosamente.")
     except Exception as e:
@@ -43,6 +42,6 @@ def whatsapp_automat_v2(numero, mensaje):
 
 
 # Llamada a la función
-numero_destino = "54 3512583038"  # Reemplaza con el número al que deseas enviar el mensaje
+numero_destino = "543512583038"  # Reemplaza con el número al que deseas enviar el mensaje
 mensaje_a_enviar = "Hola, esto es un mensaje automatizado."  # Mensaje que deseas enviar
 whatsapp_automat_v2(numero_destino, mensaje_a_enviar)

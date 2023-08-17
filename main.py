@@ -1,5 +1,4 @@
 import math
-
 import requests
 import time
 import pandas as pd
@@ -10,10 +9,6 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos, existeElPais
-from whatsappAutomat import whatsapp_automat_v2, envio_multiple_whatsapp
-
-
-
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
@@ -314,6 +309,9 @@ def menuPlan1000Datos():
 
     cantidadRequests = 17
     places = []
+
+
+
     for i in range(cantidadRequests):
         print(f'Request numero {i + 1}')
         country = input('Ingrese el país: ')
@@ -357,7 +355,25 @@ def testSectores():
                 placesToDictionary(places, scrapping)
                 break
 
+def menuPlanDatosDeseados():
+    print('###### Menu Para Datos Deseados ######')
+    print('')
+    scrap = int(input('Desea realizar scrapping de webs 1 = si , 0 = no: '))
+    scrapping = False
+    if scrap == 1:
+        scrapping = True
 
+    cantidadRequests = int(input('Ingrese la cantidad de requests que desea cada una trae 60 datos: '))
+    places = []
+
+    for i in range(cantidadRequests):
+        print(f'Request numero {i + 1}')
+        country = input('Ingrese el país: ')
+        provincia = input('Ingrese la provincia: ')
+        place_type = input('Ingrese el tipo de lugar: ')
+        data = peticionApiPorLugar(country, provincia, place_type)
+        places.extend(data)
+    placesToDictionary(places, scrapping)
 
 
 def menu():
@@ -373,10 +389,12 @@ def menu():
     print('')
     print('4: Plan Obtencion de datos x divicion geografica ')
     print('')
+    print('5: Plan Obtencion de cantidad de datos deseada  ')
+    print('')
     print('')
 
     plan = 0
-    while plan != 1 and plan != 2 and plan != 3 and plan != 4:
+    while plan != 1 and plan != 2 and plan != 3 and plan != 4 and plan !=5:
         plan = int(input('Ingrese el Numero de plan: '))
         print('')
         if plan == 1:
@@ -387,6 +405,8 @@ def menu():
             menuPlan1000Datos()
         if plan == 4:
             testSectores()
+        if plan == 5:
+            menuPlanDatosDeseados()
 
 
 
