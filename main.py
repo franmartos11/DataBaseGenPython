@@ -211,6 +211,11 @@ def placesToDictionary(data,scrap):
         dictionaryToExel(scrap, home_df)
         print('Exel Creado')
 
+    menu_envio_mails_scrapp(scrap, arrayMail)
+
+    return print('#########Done########')
+
+def menu_envio_mails_scrapp(scrap,arrayMail):
     if scrap:
         print('##############################################')
         print('Envio de emails')
@@ -221,8 +226,6 @@ def placesToDictionary(data,scrap):
             sendEmailsToEverione(arrayMail)
             print('##############################################')
             print('Envio De Emails Finalizado Con exito')
-
-    return print('#########Done########')
 
 
 def generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayFiltro,nameFilter):
