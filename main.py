@@ -205,23 +205,24 @@ def placesToDictionary(data,scrap):
 
         # crear el exel si hay datos extraidos de selenium
         dictionaryToExel(scrap, home_df, linkedin_df, instagram_df, facebook_df, mail_df)
-
+        print('Exel Creado')
     else:
         # crear el exel si NO hay datos extraidos de selenium
         dictionaryToExel(scrap, home_df)
+        print('Exel Creado')
 
     if scrap:
         print('##############################################')
-        print('envio de emails')
+        print('Envio de emails')
         emailSend = int(input('Deseas enviar un email a cada uno de los encontrados en el scrapping'
                               '1-si'
                               '2-no'))
         if emailSend == 1:
             sendEmailsToEverione(arrayMail)
             print('##############################################')
-            print('envio de emails Finalizado con exito')
+            print('Envio De Emails Finalizado Con exito')
 
-    return print('Exel Creado')
+    return print('#########Done########')
 
 
 def generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayFiltro,nameFilter):

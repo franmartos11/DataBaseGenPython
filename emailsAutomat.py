@@ -48,9 +48,13 @@ def sendEmailsToEverione(arrayMails):
     cleanArray = cleanEmailFormat(arrayMails)
 
     #recorro el array enviando mails con tiempo de espera random
-
+    count = 1
     for mail in cleanArray:
         sendEmail(mail, subject, message)
+        print(f'Email numero {count} de {len(cleanArray)} ')
+        print(f'Email a {mail} se envio correctamente.')
+        print(' ')
+        count += 1
         time.sleep(random.randint(30, 90))
 
 #arr = ['franmartos11@gmail.com','mailto:usafyabot2.3@gmail.com','usafyabot2.4@gmail.com']
