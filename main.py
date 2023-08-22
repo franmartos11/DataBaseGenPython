@@ -210,8 +210,18 @@ def placesToDictionary(data,scrap):
         # crear el exel si NO hay datos extraidos de selenium
         dictionaryToExel(scrap, home_df)
 
-    return print('Exel Creado')
+    if scrap:
+        print('##############################################')
+        print('envio de emails')
+        emailSend = int(input('Deseas enviar un email a cada uno de los encontrados en el scrapping'
+                              '1-si'
+                              '2-no'))
+        if emailSend == 1:
+            sendEmailsToEverione(arrayMail)
+            print('##############################################')
+            print('envio de emails Finalizado con exito')
 
+    return print('Exel Creado')
 
 
 def generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayFiltro,nameFilter):
@@ -342,6 +352,10 @@ def menuPlanDatosDeseados():
         data = peticionApiPorLugar(country, provincia, place_type)
         places.extend(data)
     placesToDictionary(places, scrapping)
+
+
+
+
 
 
 def menu():
