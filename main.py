@@ -60,6 +60,11 @@ def obtenerDetalleSegunPlaceId(place_id):
         return None
 
 def scrapSocialMediaLinksWithSelenium(webUrl):
+    # Diccionario para almacenar enlaces de redes sociales
+    social_links = {}
+    # Filtro contra webs mal puestas
+    if 'facebook' in webUrl.lower() or 'instagram' in webUrl.lower() or 'linkedin' in webUrl.lower() :
+        return social_links
     try:
         # Configurar opciones para ejecutar en modo headless
         chrome_options = Options()
@@ -71,9 +76,6 @@ def scrapSocialMediaLinksWithSelenium(webUrl):
 
         # Abrir la URL
         driver.get(webUrl)
-
-        # Diccionario para almacenar enlaces de redes sociales
-        social_links = {}
 
         # Buscar enlaces a redes sociales utilizando XPath
         social_media_xpath = {
@@ -215,7 +217,7 @@ def placesToDictionary(data,scrap):
 
     return print('#########Done########')
 
-def menu_envio_mails_scrapp(scrap,arrayMail):
+def menu_envio_mails_scrapp(scrap, arrayMail):
     if scrap:
         print('##############################################')
         print('Envio de emails')
@@ -356,10 +358,6 @@ def menuPlanDatosDeseados():
         data = peticionApiPorLugar(country, provincia, place_type)
         places.extend(data)
     placesToDictionary(places, scrapping)
-
-
-
-
 
 
 def menu():
