@@ -116,6 +116,16 @@ def dictionaryToExel(scrapping,homeDictionary,linkedinDictionary = None,instagra
             linkedinDictionary.to_excel(excel_writer, sheet_name='Linkedin', index=False)
             instagramDictionary.to_excel(excel_writer, sheet_name='Instagram', index=False)
 
+def dictionaryToExelTkinder(exel_name,scrapping,homeDictionary,linkedinDictionary = None,instagramDictionary= None,facebookDictionaty= None,mailDictionary= None):
+
+    # Export DataFrames to Excel using ExcelWriter
+    with pd.ExcelWriter(f'{exel_name}.xlsx') as excel_writer:
+        homeDictionary.to_excel(excel_writer, sheet_name='Home', index=False)
+        if scrapping:
+            facebookDictionaty.to_excel(excel_writer, sheet_name='Facebook', index=False)
+            mailDictionary.to_excel(excel_writer, sheet_name='Mails', index=False)
+            linkedinDictionary.to_excel(excel_writer, sheet_name='Linkedin', index=False)
+            instagramDictionary.to_excel(excel_writer, sheet_name='Instagram', index=False)
 
 
 def placesToDictionary(data,scrap):
@@ -359,6 +369,107 @@ def menuPlanDatosDeseados():
         places.extend(data)
     placesToDictionary(places, scrapping)
 
+
+def placesToDictionaryTkinter(exel_name,data,scrap):
+    # arrays de datos para el diccionario
+    arrayCantidadDatos = []
+    arrayName = []
+    arrayAddress = []
+    arrayPhone = []
+    arrayUrlMaps = []
+    arrayWebsite = []
+    arrayRating = []
+    arrayCantidadReviews = []
+    arrayLinkedin = []
+    arrayFacebook = []
+    arrayInstagram = []
+    arrayMail = []
+
+    for place in data:
+        place_id = place.get('place_id')
+        lugar = obtenerDetalleSegunPlaceId(place_id)
+
+        if lugar:
+            name = lugar.get('name', 'Nombre no disponible')
+            address = lugar.get('formatted_address', 'Dirección no disponible')
+            phone = lugar.get('international_phone_number', 'Teléfono no disponible')
+            urlMaps = lugar.get('url', 'url no disponible')
+            website = lugar.get('website', 'Sitio web no disponible')
+            rating = lugar.get('rating', 'no hay rating')
+            cantidadReviews = lugar.get('user_ratings_total', 'No tiene reviews')
+
+            # Actualizar las listas correspondientes en esta única iteración
+            arrayCantidadDatos.append(len(arrayCantidadDatos) + 1)
+            arrayName.append(name)
+            arrayAddress.append(address)
+            arrayPhone.append(phone)
+            arrayUrlMaps.append(urlMaps)
+            arrayWebsite.append(website)
+            arrayRating.append(rating)
+            arrayCantidadReviews.append(cantidadReviews)
+
+            # si deseo realizar scrap analizo los websites q se extrajeron
+            if scrap:
+                if website and website != 'Sitio web no disponible':
+                    social_media_links = scrapSocialMediaLinksWithSelenium(website)
+
+                    linkedin = social_media_links.get('LinkedIn', 'No encontrado')
+                    instagram = social_media_links.get('Instagram', 'No encontrado')
+                    facebook = social_media_links.get('Facebook', 'No encontrado')
+                    mail = social_media_links.get('Mail', 'No encontrado')
+
+                    # Agregar los enlaces al array correspondiente
+                    arrayLinkedin.append(linkedin)
+                    arrayInstagram.append(instagram)
+                    arrayFacebook.append(facebook)
+                    arrayMail.append(mail)
+                else:
+                    # Si no hay enlace de sitio web, llenar con 'No encontrado'
+                    arrayLinkedin.append('No encontrado')
+                    arrayInstagram.append('No encontrado')
+                    arrayFacebook.append('No encontrado')
+                    arrayMail.append('No encontrado')
+
+    dataDictionary = {
+        'Id': arrayCantidadDatos,
+        'Name': arrayName,
+        'Address': arrayAddress,
+        'Phone': arrayPhone,
+        'URL Maps': arrayUrlMaps,
+        'Website': arrayWebsite,
+        'Rating': arrayRating,
+        'Quantity of Reviews': arrayCantidadReviews,
+    }
+
+    # pasar los dictioonary a dataframes usando panda para poder crear las sheets + filtro para limpiar datos q no contangan la info q necesito
+    home_df = pd.DataFrame(dataDictionary)
+
+    # genero diccionarios segun un filtro si es que scrappeo
+    if scrap:
+        linkedinDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayLinkedin, 'Linkedin')
+        instagramDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayInstagram, 'Instagram')
+        facebookDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, arrayFacebook, 'Facebook')
+        mailDictionary = generadorDictionaryConFiltro(arrayName, arrayAddress, arrayPhone, cleanEmailFormat(arrayMail), 'Mail')
+
+        # creo los dataframes de los datos extraidos con selenium
+        linkedin_df = pd.DataFrame(linkedinDictionary)
+        instagram_df = pd.DataFrame(instagramDictionary)
+        facebook_df = pd.DataFrame(facebookDictionary)
+        mail_df = pd.DataFrame(mailDictionary)
+
+        # crear el exel si hay datos extraidos de selenium
+        dictionaryToExelTkinder(exel_name,scrap, home_df, linkedin_df, instagram_df, facebook_df, mail_df)
+        print('Exel Creado')
+    else:
+        # crear el exel si NO hay datos extraidos de selenium
+        dictionaryToExelTkinder(exel_name,scrap, home_df)
+        print('Exel Creado')
+
+    menu_envio_mails_scrapp(scrap, arrayMail)
+
+    return print('#########Done########')
+
+
 def menuVisual():
     places = []
     def buscar():
@@ -366,18 +477,16 @@ def menuVisual():
         provincia = provincia_entry.get()
         place_type = place_type_entry.get()
         scrapp_option = scrapp_option_var.get()
-        linkedin_scrapp = linkedin_scrapp_var.get()
-        phone_scrapp = phone_scrapp_var.get()
-        email_scrapp  = email_scrapp_var.get()
-        facebook_scrapp  = facebook_scrapp_var.get()
+        exel_name = exel_name_entry.get()
+
+        #linkedin_scrapp = linkedin_scrapp_var.get()
+        #phone_scrapp = phone_scrapp_var.get()
+        #email_scrapp  = email_scrapp_var.get()
+        #facebook_scrapp  = facebook_scrapp_var.get()
 
         data = peticionApiPorLugar(country,provincia,place_type)
         places.extend(data)
-        placesToDictionary(places, scrapp_option)
-
-
-
-
+        placesToDictionaryTkinter(exel_name,places, scrapp_option)
 
     # Crear una ventana
     ventana = tk.Tk()
@@ -401,30 +510,36 @@ def menuVisual():
     place_type_entry = tk.Entry(ventana)
     place_type_entry.pack()
 
-    # Checkbox para mostrar todos los resultados
+    # Checkbox para hacer scrapping web
     scrapp_option_var = tk.IntVar()
     scrapp_option_checkbox = tk.Checkbutton(ventana, text="Realizar scrapping web", variable=scrapp_option_var)
     scrapp_option_checkbox.pack()
 
+    # Etiqueta y entrada nombre de exel
+    exel_name_label = tk.Label(ventana, text="Nombre de exel a generar:")
+    exel_name_label.pack()
+    exel_name_entry = tk.Entry(ventana)
+    exel_name_entry.pack()
+
     # Checkbox para mostrar Linkedin
-    linkedin_scrapp_var = tk.IntVar()
-    linkedin_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear linkedin", variable=linkedin_scrapp_var)
-    linkedin_scrapp_checkbox.pack()
+    #linkedin_scrapp_var = tk.IntVar()
+    #linkedin_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear linkedin", variable=linkedin_scrapp_var)
+    #linkedin_scrapp_checkbox.pack()
 
     # Checkbox para mostrar todos los email
-    email_scrapp_var = tk.IntVar()
-    email_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear emails", variable=email_scrapp_var)
-    email_scrapp_checkbox.pack()
+    #email_scrapp_var = tk.IntVar()
+    #email_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear emails", variable=email_scrapp_var)
+    #email_scrapp_checkbox.pack()
 
     # Checkbox para mostrar todos los tel
-    phone_scrapp_var = tk.IntVar()
-    phone_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear telefonos", variable=phone_scrapp_var)
-    phone_scrapp_checkbox.pack()
+    #phone_scrapp_var = tk.IntVar()
+    #phone_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear telefonos", variable=phone_scrapp_var)
+    #phone_scrapp_checkbox.pack()
 
     # Checkbox para mostrar todos los facebook
-    facebook_scrapp_var = tk.IntVar()
-    facebook_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear facebook", variable=facebook_scrapp_var)
-    facebook_scrapp_checkbox.pack()
+    #facebook_scrapp_var = tk.IntVar()
+    #facebook_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear facebook", variable=facebook_scrapp_var)
+    #facebook_scrapp_checkbox.pack()
 
     # Botón de búsqueda
     buscar_button = tk.Button(ventana, text="Buscar", command=buscar)
