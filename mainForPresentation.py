@@ -465,8 +465,6 @@ def placesToDictionaryTkinter(exel_name,data,scrap):
         dictionaryToExelTkinder(exel_name,scrap, home_df)
         print('Exel Creado')
 
-    menu_envio_mails_scrapp(scrap, arrayMail)
-
     return print('#########Done########')
 
 
@@ -556,43 +554,8 @@ def menuVisual():
     # Iniciar la aplicación
     ventana.mainloop()
 
-def menu():
-    print('Inicio de scrap de leeds')
-    print('')
-    print('Selecciona un plan')
-    print('')
-    print('1: Plan 250 Datos ')
-    print('')
-    print('2: Plan 500 Datos ')
-    print('')
-    print('3: Plan 1000 Datos ')
-    print('')
-    print('4: Plan Obtencion de datos x divicion geografica ')
-    print('')
-    print('5: Plan Obtencion de cantidad de datos deseada  ')
-    print('')
-    print('5: Menu visual  ')
-    print('')
-    print('')
+menuVisual()
 
-    plan = 0
-    while plan != 1 and plan != 2 and plan != 3 and plan != 4 and plan !=5 and plan !=6:
-        plan = int(input('Ingrese el Numero de plan: '))
-        print('')
-        if plan == 1:
-            menuPlan250Datos()
-        if plan == 2:
-            menuPlan500Datos()
-        if plan == 3:
-            menuPlan1000Datos()
-        if plan == 4:
-            testSectores()
-        if plan == 5:
-            menuPlanDatosDeseados()
-        if plan == 6:
-            menuVisual()
-
-menu()
 
 
 
