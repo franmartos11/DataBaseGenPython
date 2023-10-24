@@ -491,35 +491,42 @@ def menuVisual():
     # Crear una ventana
     ventana = tk.Tk()
     ventana.title("Liquid Leeds")
+    ventana.configure(bg="#f0f0f0")  # Cambiar el color de fondo de la ventana
+    ventana.geometry("720x400")  # Ancho x Alto en píxeles
 
-    # Etiqueta y entrada para Ciudad
-    country_label = tk.Label(ventana, text="Pais:")
+    fuente_personalizada = ("Arial", 10)
+    fuente_personalizada2 = ("Arial", 12)
+
+    # Etiqueta y entrada para Pais
+    country_label = tk.Label(ventana, text="Pais:", font=fuente_personalizada2)
     country_label.pack()
-    country_entry = tk.Entry(ventana)
-    country_entry.pack()
+    country_entry = tk.Entry(ventana, font=fuente_personalizada)
+    country_entry.pack(pady=10)
+    country_label.configure(bg="#F0F0F0")  # Cambiar el color de fondo de la etiqueta
 
-    # Etiqueta y entrada para País
-    provincia_label = tk.Label(ventana, text="Provincia:")
+    # Etiqueta y entrada para Provincia
+    provincia_label = tk.Label(ventana, text="Provincia:", font=fuente_personalizada2)
     provincia_label.pack()
-    provincia_entry = tk.Entry(ventana)
-    provincia_entry.pack()
+    provincia_entry = tk.Entry(ventana, font=fuente_personalizada)
+    provincia_entry.pack(pady=10)
+
 
     # Etiqueta y entrada para Tipo de Negocio
-    place_type_label = tk.Label(ventana, text="Tipo de Negocio:")
+    place_type_label = tk.Label(ventana, text="Tipo de Negocio:", font=fuente_personalizada2)
     place_type_label.pack()
-    place_type_entry = tk.Entry(ventana)
-    place_type_entry.pack()
+    place_type_entry = tk.Entry(ventana, font=fuente_personalizada)
+    place_type_entry.pack(pady=10)
 
     # Checkbox para hacer scrapping web
     scrapp_option_var = tk.IntVar()
-    scrapp_option_checkbox = tk.Checkbutton(ventana, text="Realizar scrapping web", variable=scrapp_option_var)
-    scrapp_option_checkbox.pack()
+    scrapp_option_checkbox = tk.Checkbutton(ventana, text="Realizar scrapping web", variable=scrapp_option_var, font=fuente_personalizada2)
+    scrapp_option_checkbox.pack(pady=10)
 
     # Etiqueta y entrada nombre de exel
-    exel_name_label = tk.Label(ventana, text="Nombre de exel a generar:")
+    exel_name_label = tk.Label(ventana, text="Nombre de exel a generar:", font=fuente_personalizada2)
     exel_name_label.pack()
-    exel_name_entry = tk.Entry(ventana)
-    exel_name_entry.pack()
+    exel_name_entry = tk.Entry(ventana, font=fuente_personalizada)
+    exel_name_entry.pack(pady=10)
 
     # Checkbox para mostrar Linkedin
     #linkedin_scrapp_var = tk.IntVar()
@@ -542,8 +549,9 @@ def menuVisual():
     #facebook_scrapp_checkbox.pack()
 
     # Botón de búsqueda
-    buscar_button = tk.Button(ventana, text="Buscar", command=buscar)
-    buscar_button.pack()
+    buscar_button = tk.Button(ventana, text="Buscar", command=buscar, font=fuente_personalizada2)
+    buscar_button.pack(pady=10)
+    buscar_button.configure(bg="#008CBA", fg="white")  # Cambiar el color de fondo y el color del texto del botón
 
     # Iniciar la aplicación
     ventana.mainloop()
