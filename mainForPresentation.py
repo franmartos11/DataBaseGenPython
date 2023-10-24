@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from divicionSectores import cantidadDatosPosiblesXpaisSegunProvincias, obtenerProvinciasPais, cantidadDePeticionesNecesariasSegunCantDatos, existeElPais
 from emailsAutomat import cleanEmailFormat, sendEmail, sendEmailsToEverione
-
+import tkinter as tk
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
@@ -359,11 +359,84 @@ def menuPlanDatosDeseados():
         places.extend(data)
     placesToDictionary(places, scrapping)
 
+def menuVisual():
+    places = []
+    def buscar():
+        country = country_entry.get()
+        provincia = provincia_entry.get()
+        place_type = place_type_entry.get()
+        scrapp_option = scrapp_option_var.get()
+        linkedin_scrapp = linkedin_scrapp_var.get()
+        phone_scrapp = phone_scrapp_var.get()
+        email_scrapp  = email_scrapp_var.get()
+        facebook_scrapp  = facebook_scrapp_var.get()
+
+        data = peticionApiPorLugar(country,provincia,place_type)
+        places.extend(data)
+        placesToDictionary(places, scrapp_option)
+
+
+
+
+
+    # Crear una ventana
+    ventana = tk.Tk()
+    ventana.title("Liquid Leeds")
+
+    # Etiqueta y entrada para Ciudad
+    country_label = tk.Label(ventana, text="Pais:")
+    country_label.pack()
+    country_entry = tk.Entry(ventana)
+    country_entry.pack()
+
+    # Etiqueta y entrada para País
+    provincia_label = tk.Label(ventana, text="Provincia:")
+    provincia_label.pack()
+    provincia_entry = tk.Entry(ventana)
+    provincia_entry.pack()
+
+    # Etiqueta y entrada para Tipo de Negocio
+    place_type_label = tk.Label(ventana, text="Tipo de Negocio:")
+    place_type_label.pack()
+    place_type_entry = tk.Entry(ventana)
+    place_type_entry.pack()
+
+    # Checkbox para mostrar todos los resultados
+    scrapp_option_var = tk.IntVar()
+    scrapp_option_checkbox = tk.Checkbutton(ventana, text="Realizar scrapping web", variable=scrapp_option_var)
+    scrapp_option_checkbox.pack()
+
+    # Checkbox para mostrar Linkedin
+    linkedin_scrapp_var = tk.IntVar()
+    linkedin_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear linkedin", variable=linkedin_scrapp_var)
+    linkedin_scrapp_checkbox.pack()
+
+    # Checkbox para mostrar todos los email
+    email_scrapp_var = tk.IntVar()
+    email_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear emails", variable=email_scrapp_var)
+    email_scrapp_checkbox.pack()
+
+    # Checkbox para mostrar todos los tel
+    phone_scrapp_var = tk.IntVar()
+    phone_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear telefonos", variable=phone_scrapp_var)
+    phone_scrapp_checkbox.pack()
+
+    # Checkbox para mostrar todos los facebook
+    facebook_scrapp_var = tk.IntVar()
+    facebook_scrapp_checkbox = tk.Checkbutton(ventana, text="Scrappear facebook", variable=facebook_scrapp_var)
+    facebook_scrapp_checkbox.pack()
+
+    # Botón de búsqueda
+    buscar_button = tk.Button(ventana, text="Buscar", command=buscar)
+    buscar_button.pack()
+
+    # Iniciar la aplicación
+    ventana.mainloop()
 
 def menu():
-    print('Inicio de scrapper de Datos x Google Maps')
+    print('Inicio de scrap de leeds')
     print('')
-    print('Selecciona uno de los planes')
+    print('Selecciona un plan')
     print('')
     print('1: Plan 250 Datos ')
     print('')
@@ -375,10 +448,12 @@ def menu():
     print('')
     print('5: Plan Obtencion de cantidad de datos deseada  ')
     print('')
+    print('5: Menu visual  ')
+    print('')
     print('')
 
     plan = 0
-    while plan != 1 and plan != 2 and plan != 3 and plan != 4 and plan !=5:
+    while plan != 1 and plan != 2 and plan != 3 and plan != 4 and plan !=5 and plan !=6:
         plan = int(input('Ingrese el Numero de plan: '))
         print('')
         if plan == 1:
@@ -391,6 +466,8 @@ def menu():
             testSectores()
         if plan == 5:
             menuPlanDatosDeseados()
+        if plan == 6:
+            menuVisual()
 
 menu()
 
