@@ -347,7 +347,7 @@ def menuPlanDatosDeseados():
     if scrap == 1:
         scrapping = True
 
-    cantidadRequests = int(input('Ingrese la cantidad de requests que desea cada una trae 60 datos: '))
+    cantidadRequests = int(input('Ingrese la cantidad de requests que desea cada una trae 60 datos aproximadamente: '))
     places = []
 
     for i in range(cantidadRequests):
@@ -378,7 +378,7 @@ def menu():
     print('')
 
     plan = 0
-    while plan != 1 and plan != 2 and plan != 3 and plan != 4 and plan !=5:
+    while plan != 1 and plan != 2 and plan != 3 and plan != 4 and plan != 5:
         plan = int(input('Ingrese el Numero de plan: '))
         print('')
         if plan == 1:

@@ -1,11 +1,10 @@
 import tkinter as tk
-
-
 # Función para manejar la búsqueda
 def buscar():
     ciudad = ciudad_entry.get()
     pais = pais_entry.get()
     tipo_negocio = tipo_negocio_entry.get()
+    nombre_exel = nombre_exel_entry.get()
 
     # Aquí puedes realizar la búsqueda utilizando los valores de ciudad, país y tipo de negocio
 
@@ -13,7 +12,7 @@ def buscar():
     print(f"Ciudad: {ciudad}")
     print(f"País: {pais}")
     print(f"Tipo de Negocio: {tipo_negocio}")
-
+    print(f"Tipo de nombre_exel: {nombre_exel}")
 
 # Crear una ventana
 ventana = tk.Tk()
@@ -36,6 +35,12 @@ tipo_negocio_label = tk.Label(ventana, text="Tipo de Negocio:")
 tipo_negocio_label.pack()
 tipo_negocio_entry = tk.Entry(ventana)
 tipo_negocio_entry.pack()
+
+# Etiqueta y entrada para Tipo de Negocio
+nombre_exel_label = tk.Label(ventana, text="nombre_exel:")
+nombre_exel_label.pack()
+nombre_exel_entry = tk.Entry(ventana)
+nombre_exel_entry.pack()
 
 # Botón de búsqueda
 buscar_button = tk.Button(ventana, text="Buscar", command=buscar)
