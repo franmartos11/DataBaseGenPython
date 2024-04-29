@@ -11,8 +11,8 @@ from emailsAutomat import cleanEmailFormat, sendEmail, sendEmailsToEverione
 
 def peticionApiPorLugar(country, provincia, place_type):
     # url api , api key, array q devuelve, token para paguinar
-    api_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
-    api_key = 'AIzaSyDIDlJPADfiNnkyieboQ0uWsziE0s4E1iI'
+    api_url = ''
+    api_key = ''
     places = []
     next_page_token = None
 
