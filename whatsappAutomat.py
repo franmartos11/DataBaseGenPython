@@ -2,6 +2,7 @@ import pywhatkit as kit
 import datetime
 import pyautogui, webbrowser
 from time import sleep
+from pywhatkit import sendwhats_image
 
 def whastapp_automat():
 
@@ -32,5 +33,80 @@ def envio_multiple_whatsapp(arrayNumeros,mensaje):
         whatsapp_automat_v2(numero,mensaje)
         sleep(5)
 
-arrayNum = ['54 9 351 7658958','54 9 3512 02-7607','54 3512583038']
-envio_multiple_whatsapp(arrayNum,'hola soy un bot no reapondaiSSS')
+
+def envio_multiple_whatsapp_imge(arrayNumeros,arrayTalleres):
+    ruta_imagen = 'images/carcheck.png'
+    for i, numero in enumerate(arrayNumeros):
+
+        mensaje= ' hola ' + arrayTalleres[i] + '.'
+        sendwhats_image(numero, ruta_imagen, mensaje)
+        sleep(5)
+arraynumtest = ['+54 9 3512 58-3038', '+54 9 3513 84-2751']
+arraynomtest = ['agus', 'santi']
+envio_multiple_whatsapp_imge(arraynumtest,arraynomtest)
+
+
+nombresTalleres = [
+  "Katz Service Taller Integral del Automotor",
+  "Taller Roberto S.R.L.",
+  "Taller integral para el automotor R&R",
+  "Taller Malvinas",
+  "Mecánica Integral del Automotor Franco",
+  "Taller Mecánico Integral Samurai Automotive",
+  "Medrano Automotores",
+  "Talleres Rosedal S.R.L.",
+  "Mecánico Autos (Taller Bogado)",
+  "Automotores Giangreco",
+  "TALLER MECÁNICO BOEDO",
+  "Taller Adriano",
+  "GPS Taller - Eco Electrónica Automotriz",
+  "Taller Mecánico Eagle",
+  "Taller JR",
+  "Taller Silva Motors",
+  "Mecánica Integral MAHLU",
+  "Car-Centro Centro de Belleza Automotor , Chapa , Pintura y Mecánica",
+  "Taller Mecánico Automotor Julián",
+  "Lyon's Servicio Integral del Automotor - Taller mecánico",
+  "GPS Taller - Local German Cars",
+  "Taller Mecanico ALBERTO",
+  "Ar-Go Taller Integral Del Automotor",
+  "Taller Mecanico - Jota",
+  "GPS Taller - D. Riesco Service Integral del Automotor",
+  "Taller Integral del Automóvil",
+  "Taller Mecánico Coiroz Vargas",
+  "GPS Taller - Taller Tweety",
+  "Taller Mecánico Mecatec",
+  "Car-Centro Centro de Belleza Automotor , Chapa , Pintura y Mecánica"
+]
+
+numerosTelefonicos = [
+  "+54 9 11 5027-5555",
+  "+54 43078109",
+  "+54 11 7560-1065",
+  "+54 11 4432-0544",
+  "+54 9 11 3572-1774",
+  "+54 11 3921-6833",
+  "+54 11 4867-3736",
+  "+54 11 4771-6638",
+  "+54 11 2658-1520",
+  "+54 11 4305-8212",
+  "+54 11 4957-1428",
+  "+54 11 4961-4847",
+  "+54 11 4855-4146",
+  "+54 11 5808-0321",
+  "+54 11 2177-0171",
+  "+54 11 3980-5150",
+  "+54 11 6874-7595",
+  "+54 11 3570-7744",
+  "+54 11 4555-6062",
+  "+54 11 4611-2137",
+  "+54 11 4961-8619",
+  "+54 11 5148-8870",
+  "+54 9 11 2353-8510",
+  "+54 11 4706-2658",
+  "+54 9 11 4786-1620",
+  "+54 9 11 3075-2922",
+  "+54 11 2454-4243",
+  "+54 11 4866-4996",
+  "+54 11 3570-7744"
+]
